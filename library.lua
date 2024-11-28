@@ -54,8 +54,8 @@ function Library:CreateWindow(options)
     CloseButton.TextSize = 20
     CloseButton.TextColor3 = Color3.fromRGB(255, 255, 255)
     CloseButton.BackgroundColor3 = Color3.fromRGB(150, 0, 0)
-    CloseButton.Size = UDim2.new(0, 40, 0, 40)
-    CloseButton.Position = UDim2.new(1, -45, 0.5, -20)
+    CloseButton.Size = UDim2.new(0, 50, 0, 40)
+    CloseButton.Position = UDim2.new(1, -55, 0.1, 0)
     CloseButton.Parent = TitleBar
 
     local CloseCorner = Instance.new("UICorner")
@@ -118,12 +118,12 @@ end
 
 function Library:AddToggle(parent, text, callback)
     local Frame = Instance.new("Frame")
-    Frame.Size = UDim2.new(1, -20, 0, 60)
+    Frame.Size = UDim2.new(1, -20, 0, 70)
     Frame.BackgroundColor3 = Color3.fromRGB(18, 18, 18)
     Frame.Parent = parent
 
     local UICornerFrame = Instance.new("UICorner")
-    UICornerFrame.CornerRadius = UDim.new(0, 12)
+    UICornerFrame.CornerRadius = UDim.new(0, 25)
     UICornerFrame.Parent = Frame
 
     local Label = Instance.new("TextLabel")
@@ -136,15 +136,15 @@ function Library:AddToggle(parent, text, callback)
     Label.Parent = Frame
 
     local Toggle = Instance.new("TextButton")
-    Toggle.Size = UDim2.new(0, 50, 0, 25)
-    Toggle.Position = UDim2.new(0.75, 0, 0.5, -12.5)
+    Toggle.Size = UDim2.new(0, 60, 0, 30)
+    Toggle.Position = UDim2.new(0.75, 0, 0.5, -15)
     Toggle.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
     Toggle.Text = ""
     Toggle.Parent = Frame
 
     local Circle = Instance.new("Frame")
-    Circle.Size = UDim2.new(0, 20, 0, 20)
-    Circle.Position = UDim2.new(0, 2, 0.5, -10)
+    Circle.Size = UDim2.new(0, 24, 0, 24)
+    Circle.Position = UDim2.new(0, 3, 0.5, -12)
     Circle.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
     Circle.Parent = Toggle
 
@@ -160,7 +160,7 @@ function Library:AddToggle(parent, text, callback)
     Toggle.MouseButton1Click:Connect(function()
         isActive = not isActive
         Toggle.BackgroundColor3 = isActive and Color3.fromRGB(0, 150, 0) or Color3.fromRGB(60, 60, 60)
-        Circle.Position = isActive and UDim2.new(1, -22, 0.5, -10) or UDim2.new(0, 2, 0.5, -10)
+        Circle.Position = isActive and UDim2.new(1, -27, 0.5, -12) or UDim2.new(0, 3, 0.5, -12)
         callback(isActive)
     end)
 end
