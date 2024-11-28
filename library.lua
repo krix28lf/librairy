@@ -1,27 +1,17 @@
 local Library = {}
 
--- Fonction pour créer une fenêtre principale
 function Library:CreateWindow(options)
     options = options or {}
     local title = options.Title or "Custom UI"
     local themeColor = options.ThemeColor or Color3.fromRGB(255, 40, 40)
 
-    -- Création des éléments principaux
-    local ScreenGui = Instance.new("ScreenGui")
-    local MainFrame = Instance.new("Frame")
-    local TitleBar = Instance.new("Frame")
-    local TitleLabel = Instance.new("TextLabel")
-    local CloseButton = Instance.new("TextButton")
-    local MinimizeButton = Instance.new("TextButton")
-    local SideMenu = Instance.new("Frame")
-    local ContentFrame = Instance.new("ScrollingFrame")
-
     -- ScreenGui
+    local ScreenGui = Instance.new("ScreenGui")
     ScreenGui.Name = "CustomLibrary"
     ScreenGui.Parent = game.CoreGui
-    ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 
     -- MainFrame
+    local MainFrame = Instance.new("Frame")
     MainFrame.Size = UDim2.new(0, 800, 0, 540)
     MainFrame.Position = UDim2.new(0.5, -400, 0.5, -270)
     MainFrame.BackgroundColor3 = Color3.fromRGB(18, 18, 18)
@@ -35,6 +25,7 @@ function Library:CreateWindow(options)
     UIStrokeMain.Thickness = 4
 
     -- TitleBar
+    local TitleBar = Instance.new("Frame")
     TitleBar.Size = UDim2.new(1, 0, 0, 50)
     TitleBar.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
     TitleBar.Parent = MainFrame
@@ -42,17 +33,18 @@ function Library:CreateWindow(options)
     local UICornerTitleBar = Instance.new("UICorner", TitleBar)
     UICornerTitleBar.CornerRadius = UDim.new(0, 25)
 
-    -- TitleLabel
+    local TitleLabel = Instance.new("TextLabel")
     TitleLabel.Text = title
     TitleLabel.Font = Enum.Font.GothamBold
     TitleLabel.TextSize = 20
     TitleLabel.TextColor3 = themeColor
     TitleLabel.BackgroundTransparency = 1
-    TitleLabel.Size = UDim2.new(1, -50, 1, 0)
+    TitleLabel.Size = UDim2.new(1, -100, 1, 0)
     TitleLabel.TextXAlignment = Enum.TextXAlignment.Left
     TitleLabel.Parent = TitleBar
 
-    -- CloseButton
+    -- Close Button
+    local CloseButton = Instance.new("TextButton")
     CloseButton.Text = "X"
     CloseButton.Font = Enum.Font.GothamBold
     CloseButton.TextSize = 20
@@ -66,21 +58,8 @@ function Library:CreateWindow(options)
         ScreenGui:Destroy()
     end)
 
-    -- MinimizeButton
-    MinimizeButton.Text = "_"
-    MinimizeButton.Font = Enum.Font.GothamBold
-    MinimizeButton.TextSize = 20
-    MinimizeButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-    MinimizeButton.BackgroundColor3 = Color3.fromRGB(100, 100, 100)
-    MinimizeButton.Size = UDim2.new(0, 40, 0, 40)
-    MinimizeButton.Position = UDim2.new(1, -90, 0.5, -20)
-    MinimizeButton.Parent = TitleBar
-
-    MinimizeButton.MouseButton1Click:Connect(function()
-        MainFrame.Visible = not MainFrame.Visible
-    end)
-
-    -- SideMenu
+    -- Side Menu
+    local SideMenu = Instance.new("Frame")
     SideMenu.Size = UDim2.new(0, 200, 1, -50)
     SideMenu.Position = UDim2.new(0, 0, 0, 50)
     SideMenu.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
@@ -89,7 +68,8 @@ function Library:CreateWindow(options)
     local UICornerSideMenu = Instance.new("UICorner", SideMenu)
     UICornerSideMenu.CornerRadius = UDim.new(0, 25)
 
-    -- ContentFrame
+    -- Content Frame
+    local ContentFrame = Instance.new("ScrollingFrame")
     ContentFrame.Size = UDim2.new(1, -200, 1, -50)
     ContentFrame.Position = UDim2.new(0, 200, 0, 50)
     ContentFrame.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
@@ -98,10 +78,9 @@ function Library:CreateWindow(options)
     ContentFrame.CanvasSize = UDim2.new(0, 0, 0, 0)
     ContentFrame.Parent = MainFrame
 
-    local UICornerContent = Instance.new("UICorner", ContentFrame)
-    UICornerContent.CornerRadius = UDim.new(0, 25)
+    local UICornerContentFrame = Instance.new("UICorner", ContentFrame)
+    UICornerContentFrame.CornerRadius = UDim.new(0, 25)
 
-    -- Retourner les composants principaux
     return {
         MainFrame = MainFrame,
         SideMenu = SideMenu,
@@ -109,7 +88,7 @@ function Library:CreateWindow(options)
     }
 end
 
--- Ajouter un bouton au menu latéral
+-- Add Button to Side Menu
 function Library:AddButton(parent, text, callback)
     local Button = Instance.new("TextButton")
     Button.Text = text
@@ -125,37 +104,51 @@ function Library:AddButton(parent, text, callback)
     UICornerButton.CornerRadius = UDim.new(0, 12)
 
     Button.MouseButton1Click:Connect(callback)
-    return Button
 end
 
--- Ajouter un toggle
+-- Add Toggle Switch
 function Library:AddToggle(parent, text, callback)
     local Frame = Instance.new("Frame")
-    Frame.Size = UDim2.new(1, -20, 0, 50)
+    Frame.Size = UDim2.new(1, -20, 0, 60)
     Frame.BackgroundColor3 = Color3.fromRGB(18, 18, 18)
     Frame.Parent = parent
 
     local UICornerFrame = Instance.new("UICorner", Frame)
     UICornerFrame.CornerRadius = UDim.new(0, 12)
 
-    local Label = Instance.new("TextLabel", Frame)
+    local Label = Instance.new("TextLabel")
     Label.Text = text
     Label.Font = Enum.Font.GothamBold
     Label.TextSize = 16
     Label.TextColor3 = Color3.fromRGB(255, 255, 255)
-    Label.Size = UDim2.new(0.7, 0, 1, 0)
     Label.BackgroundTransparency = 1
+    Label.Size = UDim2.new(0.7, 0, 1, 0)
+    Label.Parent = Frame
 
-    local ToggleButton = Instance.new("TextButton", Frame)
-    ToggleButton.Text = ""
-    ToggleButton.Size = UDim2.new(0, 50, 0, 25)
-    ToggleButton.Position = UDim2.new(0.75, 0, 0.5, -12.5)
-    ToggleButton.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+    local Toggle = Instance.new("TextButton")
+    Toggle.Size = UDim2.new(0, 50, 0, 25)
+    Toggle.Position = UDim2.new(0.75, 0, 0.5, -12.5)
+    Toggle.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+    Toggle.Text = ""
+    Toggle.Parent = Frame
+
+    local Circle = Instance.new("Frame")
+    Circle.Size = UDim2.new(0, 20, 0, 20)
+    Circle.Position = UDim2.new(0, 2, 0.5, -10)
+    Circle.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    Circle.Parent = Toggle
+
+    local UICornerToggle = Instance.new("UICorner", Toggle)
+    UICornerToggle.CornerRadius = UDim.new(1, 0)
+
+    local UICornerCircle = Instance.new("UICorner", Circle)
+    UICornerCircle.CornerRadius = UDim.new(1, 0)
 
     local isActive = false
-    ToggleButton.MouseButton1Click:Connect(function()
+    Toggle.MouseButton1Click:Connect(function()
         isActive = not isActive
-        ToggleButton.BackgroundColor3 = isActive and Color3.fromRGB(0, 150, 0) or Color3.fromRGB(60, 60, 60)
+        Toggle.BackgroundColor3 = isActive and Color3.fromRGB(0, 150, 0) or Color3.fromRGB(60, 60, 60)
+        Circle.Position = isActive and UDim2.new(1, -22, 0.5, -10) or UDim2.new(0, 2, 0.5, -10)
         callback(isActive)
     end)
 end
