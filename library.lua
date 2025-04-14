@@ -1622,10 +1622,25 @@ local function UnpackColor(Color)
 end
 
 function tween(object, goal, callback, tweenin)
-	local tween = TweenService:Create(object,tweenin or tweeninfo, goal)
-	tween.Completed:Connect(callback or function() end)
-	tween:Play()
+    -- Vérifie si l'objet possède les propriétés du tween
+    local success = true
+    for property, _ in pairs(goal) do
+        if object[property] == nil then
+            success = false
+            break
+        end
+    end
+
+    if success then
+        local tween = TweenService:Create(object, tweenin or tweeninfo, goal)
+        tween.Completed:Connect(callback or function() end)
+        tween:Play()
+    else
+        -- Si l'objet ne supporte pas la propriété, on skip
+        warn("❌ Tween ignoré pour l'objet :", object.ClassName)
+    end
 end
+
 
 local function BlurModule(Frame)
 	local RunService = game:GetService('RunService')
