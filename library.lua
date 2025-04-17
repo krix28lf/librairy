@@ -2385,7 +2385,7 @@ function Luna:CreateWindow(WindowSettings)
 			
 			Btn.Interact.MouseButton1Click:Connect(function()
 				if typesys == "Discord" then
-					setclipboard(tostring("https://discord.gg/"..KeySettings.SecondAction.Parameter)) -- Hunter if you see this I added copy also was too lazy to send u msg
+					setclipboard("https://discord.gg/" . KeySettings.SecondAction.Parameter) -- Hunter if you see this I added copy also was too lazy to send u msg
 					if request then
 						request({
 							Url = 'http://127.0.0.1:6463/rpc?v=1',
@@ -2440,7 +2440,7 @@ function Luna:CreateWindow(WindowSettings)
 					KeySystem.Visible = false
 					if WindowSettings.KeySettings.SaveKey then
 						if writefile then
-							writefile(direc .. WindowSettings.KeySettings.FileName .. ".luna", FoundKey)
+							writefile(direc . WindowSettings.KeySettings.FileName . ".luna", FoundKey)
 						end
 						Luna:Notification({Title = "Key System", Content = "The key for this script has been saved successfully.", Icon = "lock_open"})
 					end
