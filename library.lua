@@ -2418,22 +2418,28 @@ function Luna:CreateWindow(WindowSettings)
 					end
 				end
 				if KeyFound then 
-					for _, instance in pairs(KeySystem:GetDescendants()) do
-						if instance.ClassName ~= "UICorner" and instance.ClassName ~= "UIPadding" then
-							if instance.ClassName ~= "UIStroke" then
-								tween(instance, {BackgroundTransparency = 1}, nil,TweenInfo.new(0.6, Enum.EasingStyle.Exponential))
-							end
-							if instance.ClassName == "ImageButton" then
-								tween(instance, {ImageTransparency = 1}, nil,TweenInfo.new(0.5, Enum.EasingStyle.Exponential))
-							end
-							if instance.ClassName == "TextLabel" then
-								tween(instance, {TextTransparency = 1}, nil,TweenInfo.new(0.4, Enum.EasingStyle.Exponential))
-							end
-							if instance.ClassName == "UIStroke" then
-								tween(instance, {Transparency = 1}, nil,TweenInfo.new(0.5, Enum.EasingStyle.Exponential))
+					for _, inst in pairs(KeySystem:GetDescendants()) do
+						-- on ne touche qu’aux GuiObject utiles
+						if inst:IsA("GuiObject")
+						   and not inst:IsA("UICorner")
+						   and not inst:IsA("UIPadding")
+						   and not inst:IsA("UIStroke")
+						   and not inst:IsA("UIListLayout")
+						then
+							-- si c’est un cadre ou un bouton, on diminue le Background
+							if inst:FindFirstProperty("BackgroundTransparency") then
+								tween(inst, {BackgroundTransparency = 1}, nil, TweenInfo.new(0.6, Enum.EasingStyle.Exponential))
 							end
 						end
-					end
+					
+						if inst:IsA("ImageButton") then
+							tween(inst, {ImageTransparency = 1}, nil, TweenInfo.new(0.5, Enum.EasingStyle.Exponential))
+						elseif inst:IsA("TextLabel") then
+							tween(inst, {TextTransparency = 1}, nil, TweenInfo.new(0.4, Enum.EasingStyle.Exponential))
+						elseif inst:IsA("UIStroke") then
+							tween(inst, {Transparency = 1}, nil, TweenInfo.new(0.5, Enum.EasingStyle.Exponential))
+						end
+					end					
 					tween(KeySystem, {BackgroundTransparency = 1}, nil,TweenInfo.new(0.6, Enum.EasingStyle.Exponential))
 					task.wait(0.51)
 					Passthrough = true
