@@ -2616,7 +2616,7 @@ function Luna:CreateWindow(WindowSettings)
 				while true do -- loop through all the pages
 					for _, data in list:GetCurrentPage() do
 						friendsInTotal +=1
-						table.insert(playersFriends, Data)
+						table.insert(playersFriends, data)
 					end
 
 					if list.IsFinished then
