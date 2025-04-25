@@ -2604,48 +2604,48 @@ function Luna:CreateWindow(WindowSettings)
 
 		local function checkFriends()
 			if friendsCooldown == 0 then
-
 				friendsCooldown = 25
-
+		
 				local playersFriends = {}
 				local friendsInTotal = 0
 				local onlineFriends = 0 
 				local friendsInGame = 0 
-
-				local list = Players:GetFriendsAsync(Player.UserId)
-				while true do -- loop through all the pages
-					for _, data in list:GetCurrentPage() do
-						friendsInTotal +=1
-						table.insert(playersFriends, data)
-					end
-
-					if list.IsFinished then
-						-- stop the loop since this is the last page
-						break
-					else 
-						-- go to the next page
-						list:AdvanceToNextPageAsync()
-					end
+		
+				local success, list = pcall(function()
+					return Players:GetFriendsAsync(Player.UserId)
+				end)
+		
+				if success then
+					repeat
+						for _, data in list:GetCurrentPage() do
+							friendsInTotal += 1
+							table.insert(playersFriends, data)
+						end
+						task.wait(0.5) -- Anti-rate-limit
+					until list.IsFinished or not pcall(function() list:AdvanceToNextPageAsync() end)
+				else
+					warn("Erreur de récupération des amis : " .. tostring(list))
 				end
-				for i, v in pairs(Player:GetFriendsOnline()) do
+		
+				for _, v in pairs(Player:GetFriendsOnline()) do
 					onlineFriends += 1
 				end
-
-				for i,v in pairs(playersFriends) do
+		
+				for _, v in pairs(playersFriends) do
 					if Players:FindFirstChild(v.Username) then
-						friendsInGame = friendsInGame + 1
+						friendsInGame += 1
 					end
 				end
-
-				HomeTabPage.detailsholder.dashboard.Friends.All.Value.Text = tostring(friendsInTotal).." friends"
-				HomeTabPage.detailsholder.dashboard.Friends.Offline.Value.Text = tostring(friendsInTotal - onlineFriends).." friends"
-				HomeTabPage.detailsholder.dashboard.Friends.Online.Value.Text = tostring(onlineFriends).." friends"
-				HomeTabPage.detailsholder.dashboard.Friends.InGame.Value.Text = tostring(friendsInGame).." friends"
-
+		
+				HomeTabPage.detailsholder.dashboard.Friends.All.Value.Text = tostring(friendsInTotal) .. " friends"
+				HomeTabPage.detailsholder.dashboard.Friends.Offline.Value.Text = tostring(friendsInTotal - onlineFriends) .. " friends"
+				HomeTabPage.detailsholder.dashboard.Friends.Online.Value.Text = tostring(onlineFriends) .. " friends"
+				HomeTabPage.detailsholder.dashboard.Friends.InGame.Value.Text = tostring(friendsInGame) .. " friends"
 			else
 				friendsCooldown -= 1
 			end
 		end
+		
 
 		local function format(Int)
 			return string.format("%02i", Int)
